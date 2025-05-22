@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto Matemático - Consumo de Agua</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #0a5e66;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d9e7e7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Proyecto Matemático NEM – Progresión 6</h1>
+    <h2>“Consumo de agua por colonia: ¿quién consume más y por qué?”</h2>
+
+    <h3>🧩 Progresión utilizada</h3>
+    <img src="progresion.bmp" alt="Progresión utilizada" style="max-width: 800px; display: block; margin: 1rem auto;">
+
+    <h3>🎯 Propósito formativo</h3>
+    <p>
+        Analizar el comportamiento del consumo doméstico promedio de agua por colonia y alcaldía, usando herramientas
+        matemáticas como regresiones y escalas para desarrollar pensamiento crítico, modelación matemática y conciencia
+        social sobre el uso sostenible del recurso.
+    </p>
+
+    <h3>📚 Vinculación curricular (NEM)</h3>
+    <table>
+        <tr>
+            <th>Metas</th>
+            <th>Categoría</th>
+            <th>Subcategoría</th>
+        </tr>
+        <tr>
+            <td>C1M2: Analiza procedimientos matemáticos</td>
+            <td>C1. Procedural</td>
+            <td>S4. Manejo de datos e incertidumbre</td>
+        </tr>
+        <tr>
+            <td>C3M4: Propone soluciones a problemas sociales</td>
+            <td>C3. Solución de problemas y modelación</td>
+            <td>S3. Estrategias heurísticas y ejecución no rutinaria</td>
+        </tr>
+    </table>
+
+    <h3>⏳ Tiempo estimado</h3>
+    <p>3 dias (3 sesiones):</p>
+    <ul>
+        <li><strong>Dia 1</strong>: Contextualización, problematización, exploración inicial.</li>
+        <li><strong>Dia 2</strong>: Análisis estadístico, regresión, interpretación de resultados.</li>
+        <li><strong>Dia 3</strong>: Conclusiones, propuesta visual.</li>
+    </ul>
+    <h3>📆 Cronograma de trabajo</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Día</th>
+                <th>Sesión</th>
+                <th>Actividad principal</th>
+                <th>Producto esperado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Día 1</td>
+                <td>Sesión 1</td>
+                <td>Presentación del proyecto, problematización del uso del agua, formación de equipos, exploración del
+                    dataset.</td>
+                <td>Bitácora inicial del equipo y esquema de análisis</td>
+            </tr>
+            <tr>
+                <td>Día 2</td>
+                <td>Sesión 2</td>
+                <td>Análisis matemático: gráficos, regresión lineal/logarítmica, comparación de colonias.</td>
+                <td>Gráficas, tabla comparativa, primeros hallazgos</td>
+            </tr>
+            <tr>
+                <td>Día 3</td>
+                <td>Sesión 3</td>
+                <td>Elaboración de conclusiones, redacción del informe, diseño de infografía o cartel.</td>
+                <td>Informe final, presentación visual o exposición en equipo</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>📍 Espacio físico</h3>
+    <ul>
+        <li>Aula con acceso a computadoras (o laboratorio de cómputo).</li>
+        <li>Espacio para trabajo en equipos colaborativos.</li>
+    </ul>
+
+    <h3>🧰 Materiales y recursos</h3>
+    <ul>
+        <li>Dataset de consumo de agua (portal de datos abiertos CDMX).</li>
+        <li>Acceso a Internet para consultas y descargas.</li>
+        <li>Hojas y lapiz.</li>
+    </ul>
+
+    <h3>📊 Variables clave del dataset</h3>
+    <ul>
+        <li><strong>consumo_prom_dom</strong>: Consumo doméstico promedio.</li>
+        <li><strong>colonia, alcaldia</strong>: Ubicación.</li>
+        <li><strong>anio, bimestre, fecha_referencia</strong>: Dimensión temporal.</li>
+        <li><strong>indice_des</strong>: Indicador de desarrollo socioeconómico.</li>
+        <li><strong>latitud, longitud</strong>: Georreferenciación para mapas.</li>
+        <li><strong>consumo_total_dom</strong>: Consumo total por zona.</li>
+    </ul>
+
+    <h3>❓ Preguntas detonadoras</h3>
+    <ul>
+        <li>¿Qué colonias presentan mayor consumo de agua?</li>
+        <li>¿Existe una relación entre el desarrollo socioeconómico y el consumo?</li>
+        <li>¿Qué acciones podrían reducir el consumo sin afectar el bienestar?</li>
+    </ul>
+
+    <h3>🧠 Actividades por etapa</h3>
+    <table>
+        <tr>
+            <th>Etapa</th>
+            <th>Actividad</th>
+        </tr>
+        <tr>
+            <td>1. Introducción</td>
+            <td>Reflexión colectiva sobre el consumo de agua y revisión de la progresión matemática.</td>
+        </tr>
+        <tr>
+            <td>2. Exploración</td>
+            <td>Lectura y limpieza del dataset, visualización inicial.</td>
+        </tr>
+        <tr>
+            <td>3. Análisis</td>
+            <td>Aplicación de regresión lineal/logarítmica y clasificación por alcaldía.</td>
+        </tr>
+        <tr>
+            <td>4. Interpretación</td>
+            <td>Discusión en equipos sobre hallazgos y anomalías.</td>
+        </tr>
+        <tr>
+            <td>5. Propuesta</td>
+            <td>Redacción de recomendaciones y creación de infografía.</td>
+        </tr>
+    </table>
+
+    <h3>📝 Productos esperados</h3>
+    <ul>
+        <li>Informe escrito con gráficos y análisis matemático.</li>
+        <li>Infografía o cartel para la comunidad escolar.</li>
+        <li>Presentación oral con hallazgos clave y propuestas.</li>
+    </ul>
+
+    <h3>🤝 Participación del estudiantado</h3>
+    <p>
+        El proyecto fomenta la autonomía, colaboración, uso de tecnología, pensamiento crítico y aplicación del
+        conocimiento matemático para resolver una problemática real. Los equipos toman decisiones sobre cómo comunicar
+        sus resultados y proponer acciones concretas.
+    </p>
+    <h3>🧠 Diversidad de estilos de aprendizaje</h3>
+    <p>
+        El proyecto está diseñado para considerar distintas formas en que el estudiantado aprende, incluyendo:
+    </p>
+    <ul>
+        <li><strong>Visual:</strong> Uso de gráficas, mapas, infografías y representación de datos que permiten
+            comprender el fenómeno a partir de lo observable.</li>
+        <li><strong>Auditivo:</strong> Discusiones grupales, presentación oral de resultados, intercambio de ideas en
+            plenaria.</li>
+        <li><strong>Kinestésico:</strong> Actividades manuales como elaboración de carteles, manipulación de datos,
+            análisis práctico de los datos presentados.</li>
+    </ul>
+    <p>
+        Estas estrategias permiten que el aprendizaje sea accesible y significativo para todo el alumnado, favoreciendo
+        la participación activa desde distintas fortalezas individuales.
+    </p>
+
+    <h3>📏 Criterios de evaluación</h3>
+    <table>
+        <tr>
+            <th>Criterio</th>
+            <th>Evidencia</th>
+        </tr>
+        <tr>
+            <td>Comprensión matemática</td>
+            <td>Modelos y conceptos aplicados correctamente.</td>
+        </tr>
+        <tr>
+            <td>Interpretación crítica</td>
+            <td>Hallazgos relevantes y explicados con claridad.</td>
+        </tr>
+        <tr>
+            <td>Propuesta pertinente</td>
+            <td>Acciones viables y fundamentadas.</td>
+        </tr>
+        <tr>
+            <td>Comunicación efectiva</td>
+            <td>Claridad visual y textual en productos entregables.</td>
+        </tr>
+    </table>
+    <h3>✅ Beneficios del proyecto</h3>
+    <ul>
+        <li>Promueve el análisis matemático aplicado a una problemática real y cercana.</li>
+        <li>Desarrolla habilidades en el uso de herramientas digitales, estadísticas y de comunicación.</li>
+        <li>Fomenta el pensamiento crítico y la conciencia ambiental entre estudiantes.</li>
+        <li>Potencia el trabajo en equipo y el respeto a diferentes formas de participación.</li>
+        <li>Es adaptable a diferentes contextos escolares (urbano o rural) y a distintos niveles de habilidad.</li>
+        <li>Puede convertirse en parte de una plataforma digital o espacio web para replicarse o compartirse con otras
+            comunidades.</li>
+    </ul>
+
+    <h3>⚠️ Limitaciones del proyecto</h3>
+    <ul>
+        <li>Requiere acceso a computadoras con software de análisis o conexión a internet.</li>
+        <li>Puede implicar una curva de aprendizaje inicial en el manejo de datos.</li>
+        <li>El dataset utilizado puede estar desactualizado o no reflejar completamente la realidad local.</li>
+        <li>La interpretación de los resultados debe guiarse cuidadosamente para evitar conclusiones erróneas.</li>
+        <li>Si no se cuenta con tiempo suficiente, los productos visuales pueden quedar limitados.</li>
+    </ul>
+
+    <h3>🧪 Forma de Evaluación: Comparación de Resultados</h3>
+    <p>
+        Como parte del proceso de evaluación, el estudiantado analizará y comparará los resultados obtenidos a través de
+        diferentes modelos matemáticos
+        (regresión lineal y modelo de potencia logarítmico) aplicados a los mismos datos. Esto permitirá:
+    </p>
+    <ul>
+        <li>Identificar qué modelo se ajusta mejor a la realidad observada en el dataset.</li>
+        <li>Interpretar las diferencias entre modelos y sus implicaciones en términos del consumo de agua.</li>
+        <li>Justificar la elección del modelo más adecuado con base en evidencia gráfica y numérica.</li>
+    </ul>
+    <p>
+        Se evaluará la capacidad del equipo para interpretar, comparar y argumentar con base en los resultados
+        obtenidos, no solo en términos matemáticos,
+        sino también en cuanto a su relevancia para proponer soluciones sustentables.
+    </p>
+
+    <h3>🔗 Conjunto de datos</h3>
+    <p>
+        Consulta el conjunto de datos oficial en:
+        <a href="https://datos.cdmx.gob.mx/ne/dataset/consumo-agua" target="_blank">Portal de Datos Abiertos de CDMX –
+            Consumo de Agua</a>
+    </p>
+    <div style="text-align: center; margin: 2rem 0;"></div>
+    <a href="mezcla.html"
+        style="display: inline-block; background-color: #0a5e66; color: #fff; padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none; font-size: 1.1em; font-weight: bold; transition: background 0.2s;">
+        Ir al proyecto
+    </a>
+    </div>
+    <footer
+        style="background-color: #0a5e66; color: #fff; text-align: center; padding: 1rem 0; border-radius: 8px; margin-top: 2rem;">
+        <p style="margin: 0.2rem 0; font-weight: 500;">Creado por Ulises Abdiel Cabello Cardenas</p>
+        <p style="margin: 0.2rem 0; font-size: 0.95em;">© 2025 Proyecto Matemático NEM</p>
+    </footer>
+</body>
+
+</html>

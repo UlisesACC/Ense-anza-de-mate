@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <title>Regresión Lineal - Proyecto Agua</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f9f9f9;
+        }
+        table, th, td {
+            border: 1px solid #aaa;
+            border-collapse: collapse;
+            padding: 0.4rem;
+        }
+        th {
+            background-color: #d9e7e7;
+        }
+        canvas {
+            background: white;
+            border: 1px solid #ccc;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+<h1>📈 Regresión Lineal Interactiva</h1>
+<h2>🔍 ¿Por qué estos valores?</h2>
+<h2>📊 Ejemplo: primeros datos del dataset</h2>
+<p>Estos son los primeros 10 registros reales del dataset original para ilustrar el análisis:</p>
+<table>
+<thead>
+<tr>
+<th>Índice de Desarrollo</th>
+<th>Consumo Promedio Doméstico (m³)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>ALTO</td><td>42.57</td></tr>
+<tr><td>MEDIO</td><td>35.94</td></tr>
+<tr><td>POPULAR</td><td>24.59</td></tr>
+<tr><td>BAJO</td><td>0.00</td></tr>
+<tr><td>BAJO</td><td>67.44</td></tr>
+<tr><td>BAJO</td><td>35.68</td></tr>
+<tr><td>BAJO</td><td>22.38</td></tr>
+<tr><td>POPULAR</td><td>0.00</td></tr>
+<tr><td>BAJO</td><td>33.66</td></tr>
+<tr><td>BAJO</td><td>51.91</td></tr>
+</tbody>
+</table>
+<p>Nota: Para usar estos valores en una regresión numérica, se puede codificar el índice de desarrollo como: ALTO = 4, MEDIO = 3, POPULAR = 2, BAJO = 1.</p>
+
+<p>
+El análisis parte del dataset oficial de consumo de agua en la Ciudad de México, el cual incluye variables como:
+<code>consumo_prom_dom</code> (consumo promedio doméstico en m³) e <code>indice_des</code> (un índice numérico del nivel de desarrollo por colonia).
+</p>
+<p>
+Aunque algunas variables del dataset tienen valores categóricos como "Alto", "Medio", "Bajo", en esta actividad solo se utilizan 
+los registros con valores <strong>numéricos</strong> de <code>indice_des</code> para poder aplicar una regresión lineal válida.
+</p>
+<p>
+Así, se establecen pares de datos \((x, y)\), donde:
+</p>
+<ul>
+<li><strong>\(x\)</strong>: índice de desarrollo (numérico)</li>
+<li><strong>\(y\)</strong>: consumo promedio doméstico de agua (en m³)</li>
+</ul>
+<p>
+Esto permite modelar cómo el nivel socioeconómico de una colonia puede estar asociado al consumo de agua en los hogares.
+</p>
+<h2>🧠 Explicación matemática</h2>
+<p>La regresión lineal es un método estadístico que permite modelar la relación entre una variable independiente \(x\) (en este caso, el índice de desarrollo)
+y una variable dependiente \(y\) (el consumo doméstico promedio). Se busca una recta que se ajuste lo mejor posible a los datos, con la ecuación general:</p>
+
+\[
+y = mx + b
+\]
+
+<p>donde:</p>
+<ul>
+<li>\(m\) es la <strong>pendiente</strong> de la recta, que indica cuánto cambia \(y\) cuando \(x\) aumenta en una unidad.</li>
+<li>\(b\) es la <strong>ordenada al origen</strong>, el valor de \(y\) cuando \(x = 0\).</li>
+</ul>
+<p>Las fórmulas para calcular \(m\) y \(b\) son:</p>
+
+\[
+m = \frac{n \sum (xy) - \sum x \sum y}{n \sum x^2 - (\sum x)^2}
+\quad\text{y}\quad
+b = \frac{\sum y - m \sum x}{n}
+\]
+
+<p>donde \(n\) es el número de datos, \(\sum x\) la suma de los valores de \(x\), \(\sum y\) la suma de los valores de \(y\), 
+\(\sum xy\) la suma de los productos \(x_i y_i\), y \(\sum x^2\) la suma de los cuadrados de los valores de \(x\).</p>
+<p>Este análisis permite identificar si existe una relación proporcional (positiva o negativa) entre el desarrollo social y el uso del agua.</p>
+
+<h2>📘 Derivación de la fórmula (explicación matemática)</h2>
+<p>Para obtener la recta de regresión lineal simple \( y = mx + b \), se busca minimizar la suma de los errores al cuadrado entre los puntos \((x_i, y_i)\) y la recta. Esto se logra con los siguientes pasos:</p>
+
+<p>Se define el error cuadrático total:</p>
+\[
+S = \sum_{i=1}^{n} (y_i - (mx_i + b))^2
+\]
+
+<p>Minimizamos derivando respecto a \( m \) y \( b \):</p>
+\[
+\frac{\partial S}{\partial m} = -2 \sum x_i (y_i - m x_i - b) = 0
+\quad \text{y} \quad
+\frac{\partial S}{\partial b} = -2 \sum (y_i - m x_i - b) = 0
+\]
+
+<p>Resolviendo este sistema se llega a:</p>
+\[
+m = \frac{n \sum x_i y_i - \sum x_i \sum y_i}{n \sum x_i^2 - (\sum x_i)^2}
+\quad \text{y} \quad
+b = \frac{\sum y_i - m \sum x_i}{n}
+\]
+
+<p>Estas son las fórmulas que se usan para calcular los coeficientes de la recta de mejor ajuste.</p>
+
+<div id="detalleRegresion" style="background:#fff;padding:1rem;margin-top:1rem;border:1px solid #ccc;">
+<h3>📐 Cálculo detallado de la recta:</h3>
+<div id="calculosMathjax">
+<p>Después de ingresar los datos y graficar, verás aquí cómo se aplica la fórmula:</p>
+<p><strong>Fórmulas:</strong></p>
+<p>
+            \[
+            m = \frac{n \sum (xy) - \sum x \sum y}{n \sum x^2 - (\sum x)^2}, \quad
+            b = \frac{\sum y - m \sum x}{n}
+            \]
+        </p>
+<p id="reemplazoFormulas">Aquí se mostrará el desarrollo con tus datos…</p>
+</div>
+<label for="nombre">👤 Tu nombre:</label>
+<input id="nombre" placeholder="Escribe tu nombre" type="text"/><br/><br/>
+
+<p>Ingresa los valores para calcular la regresión lineal:</p>
+<table id="dataTable">
+<thead><tr><th>x</th><th>y</th></tr></thead>
+<tbody id="tableBody">
+<tr><td><input type="number" step="any"/></td><td><input type="number" step="any"/></td></tr>
+<tr><td><input type="number" step="any"/></td><td><input type="number" step="any"/></td></tr>
+<tr><td><input type="number" step="any"/></td><td><input type="number" step="any"/></td></tr>
+</tbody>
+</table>
+<button onclick="addRow()">➕ Agregar fila</button>
+<button onclick="generateChart()">📊 Graficar regresión</button>
+
+<canvas id="regChart" width="700" height="400"></canvas>
+<h2>📐 Modelo de regresión de tipo potencia (log-log)</h2>
+<p>Cuando se sospecha que existe una relación no lineal entre dos variables, es posible que dicha relación sea de tipo <strong>potencia</strong>. Es decir, la forma general del modelo es:</p>
+
+<p>
+\[
+y = a \cdot x^k
+\]
+</p>
+
+<p>Este tipo de modelo se puede <strong>linealizar</strong> aplicando logaritmos naturales a ambos lados de la ecuación:</p>
+
+<p>
+\[
+\ln(y) = \ln(a \cdot x^k) = \ln(a) + k \cdot \ln(x)
+\]
+</p>
+
+<p>Esto transforma el modelo de potencia en una <strong>regresión lineal simple</strong> entre \( \ln(x) \) y \( \ln(y) \), donde:</p>
+<ul>
+    <li>\( Y' = \ln(y) \)</li>
+    <li>\( X' = \ln(x) \)</li>
+    <li>\( m = k \), la pendiente en la escala logarítmica</li>
+    <li>\( b = \ln(a) \), la ordenada al origen</li>
+</ul>
+
+<p>Entonces, se ajusta una recta del tipo:</p>
+<p>
+\[
+\ln(y) = k \cdot \ln(x) + \ln(a)
+\]
+</p>
+
+<p>Y se obtiene el modelo original elevando el número \( e \) (base de los logaritmos naturales):</p>
+<p>
+\[
+y = e^{\ln(a)} \cdot x^k = a \cdot x^k
+\]
+</p>
+
+<p>Este procedimiento es útil cuando los datos siguen una tendencia multiplicativa o escalada, común en fenómenos de crecimiento poblacional, consumo energético, o problemas con escalas logarítmicas.</p>
+
+<h2>🔢 Tabla de valores con escala logarítmica</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Índice de Desarrollo</th>
+            <th>Código (x)</th>
+            <th>Consumo Prom. Doméstico (y)</th>
+            <th>\(\ln(x)\)</th>
+            <th>\(\ln(y)\)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>BAJO</td><td>1</td><td>10.00</td><td>\(\ln(1) = 0.00\)</td><td>\(\ln(10.00) = 2.30\)</td></tr>
+        <tr><td>POPULAR</td><td>2</td><td>14.14</td><td>\(\ln(2) = 0.69\)</td><td>\(\ln(14.14) = 2.65\)</td></tr>
+        <tr><td>POPULAR</td><td>2</td><td>14.50</td><td>\(\ln(2) = 0.69\)</td><td>\(\ln(14.50) = 2.67\)</td></tr>
+        <tr><td>MEDIO</td><td>3</td><td>17.32</td><td>\(\ln(3) = 1.10\)</td><td>\(\ln(17.32) = 2.85\)</td></tr>
+        <tr><td>MEDIO</td><td>3</td><td>18.00</td><td>\(\ln(3) = 1.10\)</td><td>\(\ln(18.00) = 2.89\)</td></tr>
+        <tr><td>ALTO</td><td>4</td><td>20.00</td><td>\(\ln(4) = 1.39\)</td><td>\(\ln(20.00) = 3.00\)</td></tr>
+        <tr><td>ALTO</td><td>4</td><td>21.21</td><td>\(\ln(4) = 1.39\)</td><td>\(\ln(21.21) = 3.05\)</td></tr>
+        <tr><td>ALTO</td><td>4</td><td>22.36</td><td>\(\ln(4) = 1.39\)</td><td>\(\ln(22.36) = 3.11\)</td></tr>
+        <tr><td>ALTO</td><td>4</td><td>24.00</td><td>\(\ln(4) = 1.39\)</td><td>\(\ln(24.00) = 3.18\)</td></tr>
+        <tr><td>ALTO</td><td>4</td><td>25.30</td><td>\(\ln(4) = 1.39\)</td><td>\(\ln(25.30) = 3.23\)</td></tr>
+    </tbody>
+</table>
+
+<h2>📉 Gráfica en escala log-log</h2>
+<canvas id="logLogChart" width="700" height="400"></canvas>
+
+<script>
+const dataLogLog = [
+  { x: 1, y: 10.00 },
+  { x: 2, y: 14.14 },
+  { x: 2, y: 14.50 },
+  { x: 3, y: 17.32 },
+  { x: 3, y: 18.00 },
+  { x: 4, y: 20.00 },
+  { x: 4, y: 21.21 },
+  { x: 4, y: 22.36 },
+  { x: 4, y: 24.00 },
+  { x: 4, y: 25.30 },
+];
+
+const ctxLog = document.getElementById('logLogChart').getContext('2d');
+new Chart(ctxLog, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Datos log-log',
+      data: dataLogLog,
+      backgroundColor: 'blue',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: false,
+    scales: {
+      x: {
+        type: 'logarithmic',
+        title: {
+          display: true,
+          text: 'ln(x) - Índice de Desarrollo (log)'
+        },
+        min: 1,
+        max: 10,
+        ticks: {
+          callback: function(value) {
+            return Number(value).toFixed(0);
+          }
+        }
+      },
+      y: {
+        type: 'logarithmic',
+        title: {
+          display: true,
+          text: 'ln(y) - Consumo Prom. Doméstico (log)'
+        },
+        min: 10,
+        max: 100,
+        ticks: {
+          callback: function(value) {
+            return Number(value).toFixed(0);
+          }
+        }
+      }
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: 'Gráfica log-log: Relación de tipo potencia'
+      }
+    }
+  }
+});
+</script>
+
+<!-- Controles adicionales -->
+<p><strong>Opciones avanzadas:</strong></p>
+<div class="opciones-avanzadas">
+    <label><input type="checkbox" id="logScaleX"> Escala logarítmica en eje X</label><br/>
+    <label><input type="checkbox" id="logScaleY"> Escala logarítmica en eje Y</label><br/>
+    <button onclick="generatePowerLaw()">📈 Ajustar modelo de potencia</button>
+</div>
+
+<h2>🔎 Interpretación de los resultados</h2>
+<div class="interpretacion-resultados"></div>
+    <p>Una vez obtenida la recta de regresión o el modelo de tipo potencia, es importante analizar su significado en el contexto del problema. Aquí se explican los principales elementos:</p>
+
+    <ul>
+        <li>
+            <strong>Pendiente \(m\) (en regresión lineal):</strong> Indica cuánto varía el consumo promedio doméstico (\(y\)) por cada unidad que aumenta el índice de desarrollo (\(x\)).<br>
+            <ul>
+                <li>Si \(m > 0\): hay una relación <strong>positiva</strong>. A mayor desarrollo, mayor consumo.</li>
+                <li>Si \(m < 0\): hay una relación <strong>negativa</strong>. A mayor desarrollo, menor consumo.</li>
+                <li>Si \(m \approx 0\): no hay una relación clara entre las variables.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Ordenada al origen \(b\):</strong> Es el valor estimado de \(y\) cuando \(x = 0\). Aunque en muchos casos no tenga interpretación directa (pues \(x = 0\) no es realista), es útil para definir la recta.
+        </li>
+        <li>
+            <strong>Forma de la nube de puntos:</strong>
+            <ul>
+                <li>Si los puntos están muy cerca de la línea: la regresión es un buen modelo (poca dispersión).</li>
+                <li>Si los puntos están dispersos: puede que la relación no sea lineal o haya otros factores involucrados.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Modelo de potencia:</strong> Si se aplicó una regresión logarítmica, una pendiente \(k > 1\) implica <strong>crecimiento acelerado</strong>, mientras que \(0 &lt; k &lt; 1\) sugiere <strong>crecimiento desacelerado</strong>.
+        </li>
+    </ul>
+
+    <p>En el contexto de este proyecto, si se encuentra una pendiente positiva significativa, podría interpretarse que las colonias con mayor desarrollo tienen un mayor consumo de agua, posiblemente por mayores comodidades, electrodomésticos, o número de habitantes por vivienda. Si es negativa, podría indicar mayor eficiencia o menor necesidad de consumo en zonas desarrolladas.</p>
+</div>
+
+<style>
+.opciones-avanzadas {
+    background: #eaf6fb;
+    border: 1px solid #b3d7e8;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0 1.5rem 0;
+    border-radius: 8px;
+    max-width: 400px;
+}
+.opciones-avanzadas label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    cursor: pointer;
+}
+.opciones-avanzadas button {
+    margin-top: 0.7rem;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.opciones-avanzadas button:hover {
+    background: #125ea2;
+}
+
+.interpretacion-resultados {
+    background: #f7fbe9;
+    border: 1px solid #cbe7b6;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+}
+.interpretacion-resultados ul {
+    margin-left: 1.2rem;
+    margin-bottom: 1rem;
+}
+.interpretacion-resultados li {
+    margin-bottom: 0.5rem;
+}
+.interpretacion-resultados strong {
+    color: #2e7d32;
+}
+</style>
+
+<br>
+<button onclick="exportarPDF()">📄 Exportar todo como PDF</button>
+
+<script>
+let ecuacionGlobal = '';
+
+function addRow() {
+    const row = document.createElement('tr');
+    row.innerHTML = '<td><input type="number" step="any"></td><td><input type="number" step="any"></td>';
+    document.getElementById('tableBody').appendChild(row);
+}
+
+function generateChart() {
+    const rows = document.querySelectorAll('#tableBody tr');
+    let x = [], y = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const xi = parseFloat(inputs[0].value);
+        const yi = parseFloat(inputs[1].value);
+        if (!isNaN(xi) && !isNaN(yi)) {
+            x.push(xi);
+            y.push(yi);
+        }
+    });
+
+    if (x.length < 2) {
+        alert("Introduce al menos dos pares de valores.");
+        return;
+    }
+
+    const n = x.length;
+    const sumX = x.reduce((a, b) => a + b, 0);
+    const sumY = y.reduce((a, b) => a + b, 0);
+    const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+    const sumXX = x.reduce((sum, xi) => sum + xi * xi, 0);
+
+    const m = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const b = (sumY - m * sumX) / n;
+
+    ecuacionGlobal = `y = ${m.toFixed(2)}x + ${b.toFixed(2)}`;
+    
+    document.getElementById("reemplazoFormulas").innerHTML = `
+    <ul>
+        <li>n = ${n}</li>
+        <li>∑x = ${sumX.toFixed(2)}</li>
+        <li>∑y = ${sumY.toFixed(2)}</li>
+        <li>∑xy = ${sumXY.toFixed(2)}</li>
+        <li>∑x² = ${sumXX.toFixed(2)}</li>
+        <li><strong>Pendiente (m)</strong> = ${m.toFixed(4)}</li>
+        <li><strong>Ordenada al origen (b)</strong> = ${b.toFixed(4)}</li>
+        <li><strong>Ecuación</strong>: y = ${m.toFixed(2)}x + ${b.toFixed(2)}</li>
+    </ul>`;
+
+    if (window.MathJax) MathJax.typeset();
+
+    const regressionLine = x.map(xi => ({ x: xi, y: m * xi + b }));
+    const scatterData = x.map((xi, i) => ({ x: xi, y: y[i] }));
+
+    const ctx = document.getElementById('regChart').getContext('2d');
+    if (window.myChart) window.myChart.destroy();
+
+    window.myChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [
+                {
+                    label: 'Datos',
+                    data: scatterData,
+                    backgroundColor: 'blue'
+                },
+                {
+                    label: 'Línea de regresión',
+                    data: regressionLine.sort((a,b) => a.x - b.x),
+                    type: 'line',
+                    borderColor: 'green',
+                    fill: false,
+                    pointRadius: 0
+                }
+            ]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                x: {
+                    title: { display: true, text: 'x (Índice desarrollo)' }
+                },
+                y: {
+                    title: { display: true, text: 'y (Consumo doméstico)' }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Ecuación para ${document.getElementById('nombre').value || 'Estudiante'}: y = ${m.toFixed(2)}x + ${b.toFixed(2)}`
+                }
+            }
+        }
+    });
+}
+function generatePowerLaw() {
+    const rows = document.querySelectorAll('#tableBody tr');
+    let x = [], y = [];
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const xi = parseFloat(inputs[0].value);
+        const yi = parseFloat(inputs[1].value);
+        if (!isNaN(xi) && !isNaN(yi) && xi > 0 && yi > 0) { // evita log(0) o log(neg)
+            x.push(Math.log(xi));
+            y.push(Math.log(yi));
+        }
+    });
+
+    if (x.length < 2) {
+        alert("Se necesitan al menos dos pares de datos positivos para ajustar una ley de potencia.");
+        return;
+    }
+
+    const n = x.length;
+    const sumX = x.reduce((a,b) => a + b, 0);
+    const sumY = y.reduce((a,b) => a + b, 0);
+    const sumXY = x.reduce((acc, xi, i) => acc + xi * y[i], 0);
+    const sumXX = x.reduce((acc, xi) => acc + xi * xi, 0);
+
+    const k = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const lnA = (sumY - k * sumX) / n;
+    const a = Math.exp(lnA);
+
+    const originalX = x.map(v => Math.exp(v)); // para graficar regresión en escala normal
+    const powerLine = originalX.map(xi => ({ x: xi, y: a * Math.pow(xi, k) }));
+    const scatterData = originalX.map((xi, i) => ({ x: xi, y: Math.exp(y[i]) }));
+
+    const ctx = document.getElementById('regChart').getContext('2d');
+    if (window.myChart) window.myChart.destroy();
+
+    window.myChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [
+                {
+                    label: 'Datos (positivos)',
+                    data: scatterData,
+                    backgroundColor: 'purple'
+                },
+                {
+                    label: 'Ajuste: y = a·x^k',
+                    data: powerLine.sort((a,b) => a.x - b.x),
+                    type: 'line',
+                    borderColor: 'orange',
+                    fill: false,
+                    pointRadius: 0
+                }
+            ]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                x: {
+                    type: document.getElementById('logScaleX').checked ? 'logarithmic' : 'linear',
+                    title: { display: true, text: 'x (índice desarrollo)' }
+                },
+                y: {
+                    type: document.getElementById('logScaleY').checked ? 'logarithmic' : 'linear',
+                    title: { display: true, text: 'y (consumo doméstico)' }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Modelo potencia: y = ${a.toFixed(2)}·x^${k.toFixed(2)}`
+                }
+            }
+        }
+    });
+
+    document.getElementById("reemplazoFormulas").innerHTML = `
+    <p><strong>Modelo de potencia:</strong> Se linealiza aplicando logaritmos:</p>
+    <p>\\[ \\log(y) = \\log(a) + k \\cdot \\log(x) \\]</p>
+    <ul>
+        <li>\\( n = ${n} \\)</li>
+        <li>\\( \\sum \\log(x) = ${sumX.toFixed(4)} \\)</li>
+        <li>\\( \\sum \\log(y) = ${sumY.toFixed(4)} \\)</li>
+        <li>\\( \\sum \\log(x) \\cdot \\log(y) = ${sumXY.toFixed(4)} \\)</li>
+        <li>\\( \\sum \\log(x)^2 = ${sumXX.toFixed(4)} \\)</li>
+        <li><strong>k</strong> (exponente) = ${k.toFixed(4)}</li>
+        <li><strong>a</strong> = exp(${lnA.toFixed(4)}) = ${a.toFixed(4)}</li>
+        <li><strong>Ecuación</strong>: \\( y = ${a.toFixed(2)}x^{${k.toFixed(2)}} \\)</li>
+    </ul>
+    `;
+    if (window.MathJax) MathJax.typesetPromise();
+}
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+async function exportarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const nombre = document.getElementById("nombre").value || "Estudiante";
+
+    doc.setFontSize(16);
+    doc.text("Regresión Lineal - Proyecto Agua", 10, 15);
+    doc.setFontSize(12);
+    doc.text("Nombre: " + nombre, 10, 25);
+    doc.text("Resultados y modelo:", 10, 35);
+
+    const resumen = document.getElementById("reemplazoFormulas").innerText;
+    const lineas = resumen.split('\n');
+    let y = 45;
+    lineas.forEach(linea => {
+        if (y > 270) {
+            doc.addPage();
+            y = 20;
+        }
+        doc.text(linea, 10, y);
+        y += 8;
+    });
+
+    // Agrega la gráfica
+    const canvas = document.getElementById("regChart");
+    const imgData = canvas.toDataURL("image/png");
+    doc.addPage();
+    doc.setFontSize(14);
+    doc.text("Gráfica generada:", 10, 20);
+    doc.addImage(imgData, "PNG", 10, 30, 180, 100);
+
+    // Guarda
+    doc.save("regresion_resultado.pdf");
+}
+</script>
+
+</body>
+</html>
